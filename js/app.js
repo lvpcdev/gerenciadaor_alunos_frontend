@@ -1,6 +1,5 @@
 // ===== Configuration =====
-const API_BASE = 'http://localhost:8080';
-
+const API_BASE = 'http://allcanservicos.com.br';
 // ===== State =====
 let alunos = [];
 let cursos = [];
@@ -127,7 +126,7 @@ function renderAlunos(list) {
   const tbody = document.getElementById('alunos-tbody');
   const isAtivos = alunoFilter === 'ativos';
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="icon">👥</div><p>Nenhum aluno ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><div class="icon">👥</div><p>Nenhum aluno ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(a => `
@@ -135,8 +134,12 @@ function renderAlunos(list) {
       <td>${a.id}</td>
       <td>${escapeHTML(a.nome)}</td>
       <td>${escapeHTML(a.cpf)}</td>
+      <td>${escapeHTML(a.rg || '-')}</td>
       <td>${escapeHTML(a.email)}</td>
       <td>${escapeHTML(a.telefone)}</td>
+      <td>${formatDate(a.dataNascimento)}</td>
+      <td>${escapeHTML(a.responsavelLegal || '-')}</td>
+      <td>${escapeHTML(a.endereco || '-')}</td>
       <td><span class="badge badge-${a.ativo ? 'ativo' : 'inativo'}">${a.ativo ? '🟢 Ativo' : '🔴 Inativo'}</span></td>
       <td>
         <div class="action-btns">
@@ -244,8 +247,12 @@ const App = {
       await Api.post('/alunos', {
         nome: document.getElementById('aluno-nome').value.trim(),
         cpf: document.getElementById('aluno-cpf').value.trim(),
+        rg: document.getElementById('aluno-rg').value.trim(),
         email: document.getElementById('aluno-email').value.trim(),
         telefone: document.getElementById('aluno-telefone').value.trim(),
+        dataNascimento: document.getElementById('aluno-nascimento').value,
+        responsavelLegal: document.getElementById('aluno-responsavel').value.trim(),
+        endereco: document.getElementById('aluno-endereco').value.trim(),
       });
       showToast('Aluno cadastrado com sucesso!');
       document.getElementById('form-aluno').reset();
@@ -261,16 +268,24 @@ const App = {
       <div class="form-grid">
         <div class="form-group"><label>Nome</label><input type="text" id="edit-aluno-nome" value="${escapeHTML(a.nome)}"></div>
         <div class="form-group"><label>CPF</label><input type="text" id="edit-aluno-cpf" value="${escapeHTML(a.cpf)}" maxlength="14"></div>
+        <div class="form-group"><label>RG</label><input type="text" id="edit-aluno-rg" value="${escapeHTML(a.rg || '')}"></div>
         <div class="form-group"><label>E-mail</label><input type="email" id="edit-aluno-email" value="${escapeHTML(a.email)}"></div>
         <div class="form-group"><label>Telefone</label><input type="text" id="edit-aluno-telefone" value="${escapeHTML(a.telefone)}" maxlength="15"></div>
+        <div class="form-group"><label>Data de Nascimento</label><input type="date" id="edit-aluno-nascimento" value="${a.dataNascimento || ''}"></div>
+        <div class="form-group"><label>Responsável Legal</label><input type="text" id="edit-aluno-responsavel" value="${escapeHTML(a.responsavelLegal || '')}"></div>
+        <div class="form-group"><label>Endereço</label><input type="text" id="edit-aluno-endereco" value="${escapeHTML(a.endereco || '')}"></div>
       </div>
     `, async () => {
       try {
         await Api.put(`/alunos/${id}`, {
           nome: document.getElementById('edit-aluno-nome').value.trim(),
           cpf: document.getElementById('edit-aluno-cpf').value.trim(),
+          rg: document.getElementById('edit-aluno-rg').value.trim(),
           email: document.getElementById('edit-aluno-email').value.trim(),
           telefone: document.getElementById('edit-aluno-telefone').value.trim(),
+          dataNascimento: document.getElementById('edit-aluno-nascimento').value,
+          responsavelLegal: document.getElementById('edit-aluno-responsavel').value.trim(),
+          endereco: document.getElementById('edit-aluno-endereco').value.trim(),
         });
         showToast('Aluno atualizado com sucesso!');
         closeModal(); await this.loadAlunos();
