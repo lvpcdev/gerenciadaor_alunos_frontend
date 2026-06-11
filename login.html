@@ -2,254 +2,334 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AllCan — Login</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <style>
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AllCan · Entrar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: oklch(0.683 0.176 46);
+      --brand-bright: oklch(0.735 0.168 52);
+      --brand-fill: oklch(0.645 0.175 45);
+      --brand-fill-hov: oklch(0.585 0.165 44);
+      --brand-glow: oklch(0.683 0.176 46 / 0.30);
+      --rail: oklch(0.205 0.009 265);
+      --rail-2: oklch(0.255 0.010 265);
+      --rail-bd: oklch(0.305 0.010 265);
+      --rail-ink: oklch(0.965 0.003 258);
+      --rail-ink-soft: oklch(0.700 0.008 262);
+      --bg: oklch(0.978 0.002 255);
+      --surface: oklch(1 0 0);
+      --surface-2: oklch(0.962 0.003 258);
+      --border: oklch(0.912 0.004 260);
+      --border-strong: oklch(0.860 0.006 260);
+      --ink: oklch(0.245 0.010 262);
+      --ink-soft: oklch(0.470 0.013 262);
+      --ink-muted: oklch(0.520 0.012 262);
+      --danger: oklch(0.575 0.180 26);
+      --danger-soft: oklch(0.955 0.030 26);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
 
-        body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0e0e0e;
-            color: #f2f2f2;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .login-card {
-            background: rgba(24, 24, 24, 0.92);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 48px 40px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      -webkit-font-smoothing: antialiased;
+    }
 
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e67e22;
-        }
+    .brand-panel, .form-side { min-width: 0; }
 
-        .login-logo {
-            text-align: center;
-            margin-bottom: 36px;
-        }
+    /* ===== Brand panel ===== */
+    .brand-panel {
+      position: relative;
+      background: var(--rail);
+      color: var(--rail-ink);
+      padding: 56px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
 
-        .logo-icon {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, #e67e22, #f09040);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 14px;
-            box-shadow: 0 4px 14px rgba(230, 126, 34, 0.3);
-        }
+    /* swoosh — the elliptical chrome arc of the logo */
+    .brand-panel::before,
+    .brand-panel::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .brand-panel::before {
+      width: 620px; height: 620px;
+      right: -260px; top: -200px;
+      border: 2.5px solid transparent;
+      border-top-color: var(--brand);
+      border-right-color: var(--brand-bright);
+      opacity: 0.5;
+      transform: rotate(-28deg);
+    }
+    .brand-panel::after {
+      width: 420px; height: 420px;
+      left: -180px; bottom: -180px;
+      border: 1.5px solid var(--rail-bd);
+      transform: rotate(20deg);
+    }
 
-        .login-logo h1 {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.4px;
-            margin-bottom: 4px;
-        }
+    .brand-top { position: relative; z-index: 1; display: flex; align-items: center; gap: 13px; }
+    .brand-mark {
+      width: 50px; height: 50px; border-radius: 13px;
+      background: linear-gradient(150deg, var(--brand-bright), var(--brand-fill));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 22px var(--brand-glow);
+    }
+    .brand-word { font-size: 24px; font-weight: 800; letter-spacing: -0.6px; line-height: 1; }
+    .brand-word b { color: var(--brand-bright); }
+    .brand-word small {
+      display: block; margin-top: 5px;
+      font-size: 9px; font-weight: 600; letter-spacing: 2.4px;
+      text-transform: uppercase; color: var(--rail-ink-soft);
+    }
 
-        .login-logo p {
-            color: #666666;
-            font-size: 13px;
-            font-weight: 400;
-        }
+    .brand-mid { position: relative; z-index: 1; }
+    .brand-mid h2 {
+      font-size: 34px; font-weight: 700; line-height: 1.18;
+      letter-spacing: -1px; max-width: 14ch; text-wrap: balance;
+    }
+    .brand-mid h2 em { color: var(--brand-bright); font-style: normal; }
+    .brand-mid p {
+      margin-top: 18px; font-size: 15px; color: var(--rail-ink-soft);
+      max-width: 38ch; line-height: 1.6;
+    }
+    .brand-features { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .brand-features li {
+      list-style: none; display: flex; align-items: center; gap: 11px;
+      font-size: 14px; color: var(--rail-ink);
+    }
+    .brand-features svg { color: var(--brand-bright); flex-shrink: 0; }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+    .brand-bottom {
+      position: relative; z-index: 1;
+      font-size: 12.5px; color: var(--rail-ink-soft);
+    }
 
-        label {
-            display: block;
-            color: #666666;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 6px;
-        }
+    /* ===== Form side ===== */
+    .form-side {
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px;
+    }
+    .login-card { width: 100%; max-width: 380px; }
 
-        input {
-            width: 100%;
-            padding: 10px 14px;
-            background: rgba(12, 12, 12, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            color: #f2f2f2;
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-            outline: none;
-        }
+    .login-head { margin-bottom: 30px; }
+    .login-head h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.6px; }
+    .login-head p { margin-top: 7px; font-size: 14.5px; color: var(--ink-muted); }
 
-        input:focus {
-            border-color: rgba(230, 126, 34, 0.45);
-            box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.15);
-        }
+    .form-group { margin-bottom: 18px; }
+    label {
+      display: block; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      color: var(--ink-muted); margin-bottom: 7px;
+    }
+    .input-wrap { position: relative; }
+    .input-wrap svg {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--ink-muted); pointer-events: none;
+    }
+    input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 9px;
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 14px;
+      transition: border-color 140ms var(--ease), box-shadow 140ms var(--ease);
+      outline: none;
+    }
+    input:hover { border-color: var(--ink-muted); }
+    input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+    input::placeholder { color: var(--ink-muted); }
 
-        input::placeholder {
-            color: #666666;
-            font-size: 13px;
-        }
+    .login-btn {
+      width: 100%; margin-top: 8px;
+      padding: 13px;
+      background: var(--brand-fill); color: #fff;
+      border: none; border-radius: 9px;
+      font-family: var(--font); font-size: 14.5px; font-weight: 600;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 14px var(--brand-glow);
+      transition: background 140ms var(--ease), transform 140ms var(--ease), box-shadow 140ms var(--ease);
+    }
+    .login-btn:hover { background: var(--brand-fill-hov); transform: translateY(-1px); box-shadow: 0 8px 22px var(--brand-glow); }
+    .login-btn:active { transform: translateY(0); }
+    .login-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
-        .login-btn {
-            width: 100%;
-            padding: 11px;
-            background: #e67e22;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-            margin-top: 8px;
-        }
+    .error-box {
+      display: none; align-items: center; gap: 9px;
+      background: var(--danger-soft);
+      border: 1px solid oklch(0.575 0.18 26 / 0.25);
+      color: oklch(0.50 0.17 26);
+      padding: 11px 14px; border-radius: 9px;
+      font-size: 13px; font-weight: 500; margin-bottom: 18px;
+    }
+    .error-box.show { display: flex; }
+    .error-box svg { flex-shrink: 0; }
 
-        .login-btn:hover {
-            background: #f09040;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(230, 126, 34, 0.3);
-        }
+    .login-foot { margin-top: 26px; font-size: 12.5px; color: var(--ink-muted); text-align: center; }
 
-        .login-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
+    .spinner {
+      display: inline-block; width: 15px; height: 15px;
+      border: 2px solid oklch(1 0 0 / 0.35); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .error-box {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 16px;
-            display: none;
-        }
+    /* mobile */
+    @media (max-width: 860px) {
+      body { grid-template-columns: minmax(0, 1fr); }
+      .brand-panel {
+        padding: 32px 28px;
+        flex-direction: row; align-items: center; justify-content: flex-start;
+        gap: 16px;
+      }
+      .brand-panel::before { width: 360px; height: 360px; right: -200px; top: -160px; }
+      .brand-panel::after { display: none; }
+      .brand-mid, .brand-bottom, .brand-features { display: none; }
+      .form-side { padding: 32px 20px 44px; align-items: flex-start; }
+      .login-card { max-width: 100%; }
+    }
 
-        .error-box.show {
-            display: block;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            vertical-align: middle;
-            margin-right: 6px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="login-card">
-        <div class="login-logo">
-            <div class="logo-icon">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                    <path d="M6 12v5c3 3 10 3 12 0v-5" />
-                </svg>
-            </div>
-            <h1>AllCan</h1>
-            <p>Gestão Educacional — Área Administrativa</p>
-        </div>
-
-        <div class="error-box" id="error-box"></div>
-
-        <form id="login-form">
-            <div class="form-group">
-                <label for="login-input">Usuário</label>
-                <input type="text" id="login-input" placeholder="seu.usuario" autocomplete="username" required />
-            </div>
-            <div class="form-group">
-                <label for="senha-input">Senha</label>
-                <input type="password" id="senha-input" placeholder="••••••••" autocomplete="current-password"
-                    required />
-            </div>
-            <button type="submit" class="login-btn" id="login-btn">Entrar</button>
-        </form>
+  <!-- ===== Brand panel ===== -->
+  <aside class="brand-panel">
+    <div class="brand-top">
+      <div class="brand-mark">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+          <path d="M6 12v5c3 3 10 3 12 0v-5" />
+        </svg>
+      </div>
+      <div class="brand-word">ALL<b>CAN</b><small>Cursos de Informática</small></div>
     </div>
 
-    <script>
-        const API_BASE = 'https://allcanservicos.com.br';
+    <div class="brand-mid">
+      <h2>Há 20 anos formando <em>profissionais de sucesso</em>.</h2>
+      <p>Painel administrativo para gestão de alunos, cursos e registros de aula da AllCan.</p>
+      <ul class="brand-features">
+        <li>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Cadastro completo de alunos e cursos
+        </li>
+        <li>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Controle de presença em tempo real
+        </li>
+        <li>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Acompanhamento por aula e máquina
+        </li>
+      </ul>
+    </div>
 
-        if (localStorage.getItem('auth_token')) {
-            window.location.href = 'index.html';
-        }
+    <div class="brand-bottom">© <span id="ano">2026</span> AllCan Cursos de Informática · Área administrativa</div>
+  </aside>
 
-        document.getElementById('login-form').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const btn = document.getElementById('login-btn');
-            const errorEl = document.getElementById('error-box');
-            errorEl.classList.remove('show');
+  <!-- ===== Form ===== -->
+  <main class="form-side">
+    <div class="login-card">
+      <div class="login-head">
+        <h1>Entrar no painel</h1>
+        <p>Acesse com suas credenciais administrativas.</p>
+      </div>
 
-            btn.innerHTML = '<span class="spinner"></span> Entrando...';
-            btn.disabled = true;
+      <div class="error-box" id="error-box">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="error-text"></span>
+      </div>
 
-            try {
-                const res = await fetch(API_BASE + '/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        login: document.getElementById('login-input').value.trim(),
-                        senha: document.getElementById('senha-input').value,
-                    }),
-                });
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-input">Usuário</label>
+          <div class="input-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="login-input" placeholder="seu.usuario" autocomplete="username" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="senha-input">Senha</label>
+          <div class="input-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="senha-input" placeholder="••••••••" autocomplete="current-password" required />
+          </div>
+        </div>
+        <button type="submit" class="login-btn" id="login-btn">Entrar</button>
+      </form>
 
-                if (!res.ok) throw new Error('Usuário ou senha incorretos.');
+      <p class="login-foot">Problemas para acessar? Contate o administrador do sistema.</p>
+    </div>
+  </main>
 
-                const data = await res.json();
-                localStorage.setItem('auth_token', data.token);
-                localStorage.setItem('auth_nome', data.nome);
-                window.location.href = 'index.html';
+  <script>
+    const API_BASE = 'https://allcanservicos.com.br';
+    document.getElementById('ano').textContent = new Date().getFullYear();
 
-            } catch (err) {
-                errorEl.textContent = err.message;
-                errorEl.classList.add('show');
-            } finally {
-                btn.innerHTML = 'Entrar';
-                btn.disabled = false;
-            }
+    if (localStorage.getItem('auth_token')) {
+      window.location.href = 'index.html';
+    }
+
+    const form = document.getElementById('login-form');
+    const btn = document.getElementById('login-btn');
+    const errorEl = document.getElementById('error-box');
+    const errorText = document.getElementById('error-text');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      errorEl.classList.remove('show');
+      btn.innerHTML = '<span class="spinner"></span> Entrando...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(API_BASE + '/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            login: document.getElementById('login-input').value.trim(),
+            senha: document.getElementById('senha-input').value,
+          }),
         });
-    </script>
+
+        if (!res.ok) throw new Error('Usuário ou senha incorretos.');
+
+        const data = await res.json();
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('auth_nome', data.nome);
+        window.location.href = 'index.html';
+
+      } catch (err) {
+        errorText.textContent = err.message;
+        errorEl.classList.add('show');
+      } finally {
+        btn.innerHTML = 'Entrar';
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 
 </html>

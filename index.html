@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AllCan - Sistema de Gerenciamento de Alunos - Controle de presença, cursos e registros de aula">
-  <title>AllCan - Gerenciador de Alunos</title>
+  <meta name="description" content="AllCan Cursos de Informática — Sistema de gestão de alunos, cursos e registros de aula.">
+  <title>AllCan · Gestão Educacional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,28 +14,29 @@
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Edit Modal -->
+  <!-- Edit / Confirm Modal -->
   <div class="modal-overlay" id="modal-overlay">
-    <div class="modal" id="modal">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
         <h3 id="modal-title">Editar</h3>
-        <button class="modal-close" id="modal-close">&times;</button>
+        <button class="modal-close" id="modal-close" aria-label="Fechar">&times;</button>
       </div>
       <div class="modal-body" id="modal-body"></div>
       <div class="modal-footer">
         <button class="btn btn-secondary" id="modal-cancel">Cancelar</button>
         <button class="btn btn-primary" id="modal-save">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
           Salvar
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Mobile Menu Button -->
+  <!-- Mobile menu trigger + backdrop -->
   <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menu de navegação">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
   <div class="app-layout">
 
@@ -41,109 +44,135 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">
-          <div class="logo-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 10 3 12 0v-5"/></svg>
+          <div class="logo-mark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 10 3 12 0v-5"/></svg>
           </div>
           <div class="logo-text">
-            <h1>AllCan</h1>
-            <span>Gestão Educacional</span>
+            <span class="wordmark">ALL<b>CAN</b></span>
+            <span class="tagline">Cursos de Informática</span>
           </div>
         </div>
       </div>
       <nav class="sidebar-nav">
+        <span class="nav-section-label">Menu Principal</span>
         <a class="nav-item active" data-page="dashboard" id="nav-dashboard">
           <span class="nav-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
           </span>
           Dashboard
         </a>
         <a class="nav-item" data-page="alunos" id="nav-alunos">
           <span class="nav-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </span>
           Alunos
         </a>
         <a class="nav-item" data-page="cursos" id="nav-cursos">
           <span class="nav-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           </span>
           Cursos
         </a>
         <a class="nav-item" data-page="registros" id="nav-registros">
           <span class="nav-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
           </span>
           Registros de Aula
         </a>
       </nav>
       <div class="sidebar-footer">
         <div class="sidebar-footer-info">
-          <div class="footer-avatar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </div>
+          <div class="footer-avatar" id="footer-avatar">A</div>
           <div class="footer-text">
-            <p>AllCan Admin</p>
-            <span>v1.0.0</span>
+            <p id="usuario-nome">Administrador</p>
+            <span>AllCan · Painel</span>
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- ===== MAIN ===== -->
     <main class="main-content">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-greeting">
+          <h1 id="topbar-saudacao">Bem-vindo de volta</h1>
+          <p id="topbar-data">—</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="topbar-user">
+            <span class="ava" id="topbar-ava">A</span>
+            <span class="name" id="topbar-nome">Administrador</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="logout()" aria-label="Sair">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sair
+          </button>
+        </div>
+      </header>
+
+      <div class="content-scroll">
 
       <!-- ===== DASHBOARD ===== -->
       <section class="section-page active" id="page-dashboard">
         <header class="page-header">
           <h2>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
             Dashboard
           </h2>
-          <p>Visão geral do sistema de gerenciamento</p>
+          <p>Visão geral da operação — alunos, cursos e frequência</p>
         </header>
+
         <div class="stats-grid">
           <article class="stat-card">
             <div class="stat-card-header">
               <div class="stat-icon students">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
             </div>
             <div class="stat-value" id="stat-alunos">0</div>
             <div class="stat-label">Alunos Ativos</div>
           </article>
+
           <article class="stat-card">
             <div class="stat-card-header">
               <div class="stat-icon courses">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
               </div>
             </div>
             <div class="stat-value" id="stat-cursos">0</div>
             <div class="stat-label">Cursos Ativos</div>
           </article>
+
           <article class="stat-card">
             <div class="stat-card-header">
               <div class="stat-icon records">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
               </div>
             </div>
             <div class="stat-value" id="stat-registros">0</div>
             <div class="stat-label">Registros de Aula</div>
           </article>
+
           <article class="stat-card">
             <div class="stat-card-header">
               <div class="stat-icon attendance">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               </div>
+              <span class="stat-trend">Presença</span>
             </div>
             <div class="stat-value" id="stat-presenca">0%</div>
             <div class="stat-label">Taxa de Presença</div>
+            <div class="stat-bar"><span id="stat-presenca-bar"></span></div>
           </article>
         </div>
+
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </span>
               Últimos Registros
             </h3>
@@ -165,7 +194,7 @@
                     <td colspan="5">
                       <div class="empty-state">
                         <div class="icon">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                         </div>
                         <p>Nenhum registro encontrado</p>
                       </div>
@@ -182,18 +211,17 @@
       <section class="section-page" id="page-alunos">
         <header class="page-header">
           <h2>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             Alunos
           </h2>
-          <p>Gerencie os alunos cadastrados no sistema</p>
+          <p>Cadastre e gerencie os alunos da escola</p>
         </header>
 
-        <!-- Form -->
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </span>
               Cadastrar Aluno
             </h3>
@@ -237,7 +265,7 @@
               <div class="form-actions">
                 <button type="reset" class="btn btn-secondary">Limpar</button>
                 <button type="submit" class="btn btn-primary" id="btn-salvar-aluno">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   Cadastrar Aluno
                 </button>
               </div>
@@ -245,12 +273,11 @@
           </div>
         </div>
 
-        <!-- Table -->
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
               </span>
               Alunos Cadastrados
             </h3>
@@ -259,8 +286,8 @@
                 <button class="filter-tab active" data-filter="ativos">Ativos</button>
                 <button class="filter-tab" data-filter="inativos">Inativos</button>
               </div>
-              <button class="btn btn-secondary btn-sm" onclick="App.loadAlunos()" aria-label="Atualizar lista de alunos">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <button class="btn btn-secondary btn-icon" onclick="App.loadAlunos()" aria-label="Atualizar lista de alunos">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
               </button>
             </div>
           </div>
@@ -287,9 +314,10 @@
                     <td colspan="11">
                       <div class="empty-state">
                         <div class="icon">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         </div>
                         <p>Nenhum aluno cadastrado</p>
+                        <p class="hint">Use o formulário acima para cadastrar o primeiro aluno.</p>
                       </div>
                     </td>
                   </tr>
@@ -304,18 +332,17 @@
       <section class="section-page" id="page-cursos">
         <header class="page-header">
           <h2>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             Cursos
           </h2>
-          <p>Gerencie os cursos disponíveis</p>
+          <p>Defina os cursos oferecidos pela AllCan</p>
         </header>
 
-        <!-- Form -->
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </span>
               Cadastrar Curso
             </h3>
@@ -325,7 +352,7 @@
               <div class="form-grid">
                 <div class="form-group">
                   <label for="curso-nome">Nome do Curso</label>
-                  <input type="text" id="curso-nome" placeholder="Ex: Piano Clássico" required>
+                  <input type="text" id="curso-nome" placeholder="Ex: Informática Essencial" required>
                 </div>
                 <div class="form-group">
                   <label for="curso-descricao">Descrição</label>
@@ -339,7 +366,7 @@
               <div class="form-actions">
                 <button type="reset" class="btn btn-secondary">Limpar</button>
                 <button type="submit" class="btn btn-primary" id="btn-salvar-curso">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   Cadastrar Curso
                 </button>
               </div>
@@ -347,12 +374,11 @@
           </div>
         </div>
 
-        <!-- Table -->
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
               </span>
               Cursos Cadastrados
             </h3>
@@ -361,8 +387,8 @@
                 <button class="filter-tab active" data-filter="ativos">Ativos</button>
                 <button class="filter-tab" data-filter="inativos">Inativos</button>
               </div>
-              <button class="btn btn-secondary btn-sm" onclick="App.loadCursos()" aria-label="Atualizar lista de cursos">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <button class="btn btn-secondary btn-icon" onclick="App.loadCursos()" aria-label="Atualizar lista de cursos">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
               </button>
             </div>
           </div>
@@ -384,9 +410,10 @@
                     <td colspan="6">
                       <div class="empty-state">
                         <div class="icon">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                         </div>
                         <p>Nenhum curso cadastrado</p>
+                        <p class="hint">Cadastre os cursos para começar a registrar aulas.</p>
                       </div>
                     </td>
                   </tr>
@@ -401,18 +428,17 @@
       <section class="section-page" id="page-registros">
         <header class="page-header">
           <h2>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
             Registros de Aula
           </h2>
-          <p>Registre presenças e acompanhe as aulas</p>
+          <p>Registre presenças e acompanhe as aulas realizadas</p>
         </header>
 
-        <!-- Form -->
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </span>
               Novo Registro de Aula
             </h3>
@@ -442,7 +468,7 @@
                 </div>
                 <div class="form-group">
                   <label for="registro-exercicio">Exercício</label>
-                  <input type="text" id="registro-exercicio" placeholder="Ex: Escala de Dó Maior" required>
+                  <input type="text" id="registro-exercicio" placeholder="Ex: Digitação — Lição 4" required>
                 </div>
                 <div class="form-group">
                   <label for="registro-tipo">Tipo de Aula</label>
@@ -456,8 +482,8 @@
                   <label for="registro-presenca">Status de Presença</label>
                   <select id="registro-presenca" required>
                     <option value="">Selecione...</option>
-                    <option value="PRESENTE">✅ Presente</option>
-                    <option value="AUSENTE">❌ Ausente</option>
+                    <option value="PRESENTE">Presente</option>
+                    <option value="AUSENTE">Ausente</option>
                   </select>
                 </div>
               </div>
@@ -472,17 +498,16 @@
           </div>
         </div>
 
-        <!-- Table -->
         <div class="content-card">
           <div class="content-card-header">
             <h3>
               <span class="icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
               </span>
               Registros de Aula
             </h3>
             <button class="btn btn-secondary btn-sm" onclick="App.loadRegistros()" aria-label="Atualizar registros">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
               Atualizar
             </button>
           </div>
@@ -508,9 +533,10 @@
                     <td colspan="10">
                       <div class="empty-state">
                         <div class="icon">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                         </div>
                         <p>Nenhum registro encontrado</p>
+                        <p class="hint">Os registros de aula aparecerão aqui assim que forem lançados.</p>
                       </div>
                     </td>
                   </tr>
@@ -521,6 +547,7 @@
         </div>
       </section>
 
+      </div><!-- /content-scroll -->
     </main>
   </div>
 

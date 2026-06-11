@@ -1,6 +1,22 @@
 // ===== Configuration =====
 const API_BASE = 'https://allcanservicos.com.br';
 
+// ===== Icons (inline SVG, stroke = currentColor) =====
+const ICON = {
+  edit: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>',
+  pause: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+  play: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+  trash: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  check: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  x: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+};
+
+const EMPTY_ICON = {
+  alunos: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  cursos: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  registros: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>',
+};
+
 // ===== Auth Guard =====
 (function checkAuth() {
   const token = localStorage.getItem('auth_token');
@@ -8,10 +24,23 @@ const API_BASE = 'https://allcanservicos.com.br';
     window.location.href = 'login.html';
     return;
   }
-  const nome = localStorage.getItem('auth_nome');
-  const nomeEl = document.getElementById('usuario-nome');
-  if (nomeEl && nome) nomeEl.textContent = nome;
+  applyIdentity(localStorage.getItem('auth_nome') || 'Administrador');
 })();
+
+function initials(nome) {
+  const parts = (nome || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'A';
+  return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+}
+
+function applyIdentity(nome) {
+  const ini = initials(nome);
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('usuario-nome', nome);
+  set('topbar-nome', nome);
+  set('topbar-ava', ini);
+  set('footer-avatar', ini);
+}
 
 function logout() {
   localStorage.removeItem('auth_token');
@@ -79,9 +108,19 @@ function showToast(message, type = 'success') {
   const container = document.getElementById('toast-container');
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
-  toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> ${message}`;
+  const icon = type === 'success' ? ICON.check : ICON.x;
+  toast.innerHTML = `<span style="color:var(--${type === 'success' ? 'success' : 'danger'});display:inline-flex">${icon}</span><span>${escapeHTML(message)}</span>`;
   container.appendChild(toast);
   setTimeout(() => { toast.classList.add('removing'); setTimeout(() => toast.remove(), 300); }, 3500);
+}
+
+// ===== Skeleton loading rows =====
+function showSkeleton(tbodyId, cols, rows = 5) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  const cell = '<td><div class="skeleton-bar"></div></td>';
+  tbody.innerHTML = Array.from({ length: rows }, () =>
+    `<tr class="skeleton-row">${cell.repeat(cols)}</tr>`).join('');
 }
 
 // ===== Modal =====
@@ -122,11 +161,36 @@ function navigateTo(page) {
   document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById(`page-${page}`);
   if (el) el.classList.add('active');
-  document.getElementById('sidebar').classList.remove('open');
+  closeSidebar();
   if (page === 'dashboard') App.loadDashboard();
   if (page === 'alunos') App.loadAlunos();
   if (page === 'cursos') App.loadCursos();
   if (page === 'registros') { App.loadRegistros(); App.loadSelectOptions(); }
+}
+
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-backdrop').classList.add('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  const bd = document.getElementById('sidebar-backdrop');
+  if (bd) bd.classList.remove('show');
+}
+
+// ===== Topbar (greeting + date) =====
+function setupTopbar() {
+  const h = new Date().getHours();
+  const saud = h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
+  const nome = (localStorage.getItem('auth_nome') || '').split(/\s+/)[0] || '';
+  const elSaud = document.getElementById('topbar-saudacao');
+  if (elSaud) elSaud.innerHTML = nome ? `${saud}, <b>${escapeHTML(nome)}</b>` : `${saud}`;
+  const elData = document.getElementById('topbar-data');
+  if (elData) {
+    const fmt = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    let s = fmt.format(new Date());
+    elData.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+  }
 }
 
 // ===== Helpers =====
@@ -155,7 +219,7 @@ function renderAlunos(list) {
   const tbody = document.getElementById('alunos-tbody');
   const isAtivos = alunoFilter === 'ativos';
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><div class="icon">👥</div><p>Nenhum aluno ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><div class="icon">${EMPTY_ICON.alunos}</div><p>Nenhum aluno ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(a => `
@@ -169,13 +233,13 @@ function renderAlunos(list) {
       <td>${formatDate(a.dataNascimento)}</td>
       <td>${escapeHTML(a.responsavelLegal || '-')}</td>
       <td>${escapeHTML(a.endereco || '-')}</td>
-      <td><span class="badge badge-${a.ativo ? 'ativo' : 'inativo'}">${a.ativo ? '🟢 Ativo' : '🔴 Inativo'}</span></td>
+      <td><span class="badge badge-${a.ativo ? 'ativo' : 'inativo'}">${a.ativo ? 'Ativo' : 'Inativo'}</span></td>
       <td>
         <div class="action-btns">
-          <button class="btn btn-secondary btn-xs" onclick="App.editAluno(${a.id})">✏️ Editar</button>
+          <button class="btn btn-secondary btn-xs" onclick="App.editAluno(${a.id})">${ICON.edit} Editar</button>
           ${a.ativo
-      ? `<button class="btn btn-warning btn-xs" onclick="App.inativarAluno(${a.id}, '${escapeHTML(a.nome)}')">⏸ Inativar</button>`
-      : `<button class="btn btn-success btn-xs" onclick="App.ativarAluno(${a.id}, '${escapeHTML(a.nome)}')">▶ Ativar</button>`
+      ? `<button class="btn btn-warning btn-xs" onclick="App.inativarAluno(${a.id}, '${escapeHTML(a.nome)}')">${ICON.pause} Inativar</button>`
+      : `<button class="btn btn-success btn-xs" onclick="App.ativarAluno(${a.id}, '${escapeHTML(a.nome)}')">${ICON.play} Ativar</button>`
     }
         </div>
       </td>
@@ -188,7 +252,7 @@ function renderCursos(list) {
   const tbody = document.getElementById('cursos-tbody');
   const isAtivos = cursoFilter === 'ativos';
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">📚</div><p>Nenhum curso ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">${EMPTY_ICON.cursos}</div><p>Nenhum curso ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(c => `
@@ -197,13 +261,13 @@ function renderCursos(list) {
       <td>${escapeHTML(c.nome)}</td>
       <td>${escapeHTML(c.descricao)}</td>
       <td>${c.cargaHoraria}h</td>
-      <td><span class="badge badge-${c.ativo ? 'ativo' : 'inativo'}">${c.ativo ? '🟢 Ativo' : '🔴 Inativo'}</span></td>
+      <td><span class="badge badge-${c.ativo ? 'ativo' : 'inativo'}">${c.ativo ? 'Ativo' : 'Inativo'}</span></td>
       <td>
         <div class="action-btns">
-          <button class="btn btn-secondary btn-xs" onclick="App.editCurso(${c.id})">✏️ Editar</button>
+          <button class="btn btn-secondary btn-xs" onclick="App.editCurso(${c.id})">${ICON.edit} Editar</button>
           ${c.ativo
-      ? `<button class="btn btn-warning btn-xs" onclick="App.inativarCurso(${c.id}, '${escapeHTML(c.nome)}')">⏸ Inativar</button>`
-      : `<button class="btn btn-success btn-xs" onclick="App.ativarCurso(${c.id}, '${escapeHTML(c.nome)}')">▶ Ativar</button>`
+      ? `<button class="btn btn-warning btn-xs" onclick="App.inativarCurso(${c.id}, '${escapeHTML(c.nome)}')">${ICON.pause} Inativar</button>`
+      : `<button class="btn btn-success btn-xs" onclick="App.ativarCurso(${c.id}, '${escapeHTML(c.nome)}')">${ICON.play} Ativar</button>`
     }
         </div>
       </td>
@@ -215,7 +279,7 @@ function renderCursos(list) {
 function renderRegistros(list) {
   const tbody = document.getElementById('registros-tbody');
   if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="icon">📝</div><p>Nenhum registro encontrado</p></div></td></tr>';
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><div class="icon">${EMPTY_ICON.registros}</div><p>Nenhum registro encontrado</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(r => `
@@ -228,11 +292,11 @@ function renderRegistros(list) {
       <td>${escapeHTML(r.exercicio)}</td>
       <td>${escapeHTML(r.tipoAula)}</td>
       <td>${r.numeroMaquina}</td>
-      <td><span class="badge badge-${r.presencaStatus === 'PRESENTE' ? 'presente' : 'ausente'}">${r.presencaStatus === 'PRESENTE' ? '✅ Presente' : '❌ Ausente'}</span></td>
+      <td><span class="badge badge-${r.presencaStatus === 'PRESENTE' ? 'presente' : 'ausente'}">${r.presencaStatus === 'PRESENTE' ? 'Presente' : 'Ausente'}</span></td>
       <td>
         <div class="action-btns">
-          <button class="btn btn-secondary btn-xs" onclick="App.editRegistro(${r.id})">✏️ Editar</button>
-          <button class="btn btn-danger btn-xs" onclick="App.deleteRegistro(${r.id})">🗑 Excluir</button>
+          <button class="btn btn-secondary btn-xs" onclick="App.editRegistro(${r.id})">${ICON.edit} Editar</button>
+          <button class="btn btn-danger btn-xs" onclick="App.deleteRegistro(${r.id})">${ICON.trash} Excluir</button>
         </div>
       </td>
     </tr>
@@ -243,7 +307,7 @@ function renderDashboardRecent(list) {
   const tbody = document.getElementById('dashboard-recent-tbody');
   const recent = list.slice(-5).reverse();
   if (!recent.length) {
-    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">📋</div><p>Nenhum registro encontrado</p></div></td></tr>';
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon">${EMPTY_ICON.registros}</div><p>Nenhum registro encontrado</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML = recent.map(r => `
@@ -252,7 +316,7 @@ function renderDashboardRecent(list) {
       <td>${r.curso ? escapeHTML(r.curso.nome) : '-'}</td>
       <td>${formatDate(r.dataAula)}</td>
       <td>${escapeHTML(r.tipoAula)}</td>
-      <td><span class="badge badge-${r.presencaStatus === 'PRESENTE' ? 'presente' : 'ausente'}">${r.presencaStatus === 'PRESENTE' ? '✅ Presente' : '❌ Ausente'}</span></td>
+      <td><span class="badge badge-${r.presencaStatus === 'PRESENTE' ? 'presente' : 'ausente'}">${r.presencaStatus === 'PRESENTE' ? 'Presente' : 'Ausente'}</span></td>
     </tr>
   `).join('');
 }
@@ -261,6 +325,7 @@ function renderDashboardRecent(list) {
 const App = {
   // ----- Alunos -----
   async loadAlunos() {
+    showSkeleton('alunos-tbody', 11);
     try {
       alunos = await Api.get(`/alunos/${alunoFilter}`);
       renderAlunos(alunos);
@@ -344,6 +409,7 @@ const App = {
 
   // ----- Cursos -----
   async loadCursos() {
+    showSkeleton('cursos-tbody', 6);
     try {
       cursos = await Api.get(`/cursos/${cursoFilter}`);
       renderCursos(cursos);
@@ -412,6 +478,7 @@ const App = {
 
   // ----- Registros -----
   async loadRegistros() {
+    showSkeleton('registros-tbody', 10);
     try {
       registros = await Api.get('/registros');
       renderRegistros(registros);
@@ -464,8 +531,8 @@ const App = {
         <div class="form-group"><label>Nº Máquina</label><input type="number" id="edit-reg-maquina" value="${r.numeroMaquina}" min="1"></div>
         <div class="form-group"><label>Presença</label>
           <select id="edit-reg-presenca">
-            <option value="PRESENTE" ${r.presencaStatus === 'PRESENTE' ? 'selected' : ''}>✅ Presente</option>
-            <option value="AUSENTE" ${r.presencaStatus === 'AUSENTE' ? 'selected' : ''}>❌ Ausente</option>
+            <option value="PRESENTE" ${r.presencaStatus === 'PRESENTE' ? 'selected' : ''}>Presente</option>
+            <option value="AUSENTE" ${r.presencaStatus === 'AUSENTE' ? 'selected' : ''}>Ausente</option>
           </select>
         </div>
       </div>
@@ -511,6 +578,8 @@ const App = {
     const presentes = registros.filter(r => r.presencaStatus === 'PRESENTE').length;
     const taxa = registros.length > 0 ? Math.round((presentes / registros.length) * 100) : 0;
     animateCounter(document.getElementById('stat-presenca'), taxa + '%');
+    const bar = document.getElementById('stat-presenca-bar');
+    if (bar) requestAnimationFrame(() => { bar.style.width = taxa + '%'; });
 
     renderDashboardRecent(registros);
   },
@@ -534,8 +603,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Mobile menu
   document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
+    const open = document.getElementById('sidebar').classList.contains('open');
+    open ? closeSidebar() : openSidebar();
   });
+  document.getElementById('sidebar-backdrop').addEventListener('click', closeSidebar);
 
   // Forms
   document.getElementById('form-aluno').addEventListener('submit', e => App.saveAluno(e));
@@ -579,6 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Load dashboard on start
+  // Topbar + load dashboard on start
+  setupTopbar();
   App.loadDashboard();
 });
