@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AllCan — Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0e0e0e;
+            color: #f2f2f2;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: rgba(24, 24, 24, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e67e22;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #e67e22, #f09040);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            box-shadow: 0 4px 14px rgba(230, 126, 34, 0.3);
+        }
+
+        .login-logo h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            margin-bottom: 4px;
+        }
+
+        .login-logo p {
+            color: #666666;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            color: #666666;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(12, 12, 12, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            color: #f2f2f2;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            outline: none;
+        }
+
+        input:focus {
+            border-color: rgba(230, 126, 34, 0.45);
+            box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.15);
+        }
+
+        input::placeholder {
+            color: #666666;
+            font-size: 13px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 11px;
+            background: #e67e22;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            margin-top: 8px;
+        }
+
+        .login-btn:hover {
+            background: #f09040;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(230, 126, 34, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-box.show {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <div class="login-logo">
+            <div class="logo-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c3 3 10 3 12 0v-5" />
+                </svg>
+            </div>
+            <h1>AllCan</h1>
+            <p>Gestão Educacional — Área Administrativa</p>
+        </div>
+
+        <div class="error-box" id="error-box"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-input">Usuário</label>
+                <input type="text" id="login-input" placeholder="seu.usuario" autocomplete="username" required />
+            </div>
+            <div class="form-group">
+                <label for="senha-input">Senha</label>
+                <input type="password" id="senha-input" placeholder="••••••••" autocomplete="current-password"
+                    required />
+            </div>
+            <button type="submit" class="login-btn" id="login-btn">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        const API_BASE = 'https://allcanservicos.com.br';
+
+        if (localStorage.getItem('auth_token')) {
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-btn');
+            const errorEl = document.getElementById('error-box');
+            errorEl.classList.remove('show');
+
+            btn.innerHTML = '<span class="spinner"></span> Entrando...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(API_BASE + '/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        login: document.getElementById('login-input').value.trim(),
+                        senha: document.getElementById('senha-input').value,
+                    }),
+                });
+
+                if (!res.ok) throw new Error('Usuário ou senha incorretos.');
+
+                const data = await res.json();
+                localStorage.setItem('auth_token', data.token);
+                localStorage.setItem('auth_nome', data.nome);
+                window.location.href = 'index.html';
+
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.classList.add('show');
+            } finally {
+                btn.innerHTML = 'Entrar';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
