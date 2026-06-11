@@ -1,5 +1,24 @@
 // ===== Configuration =====
-const API_BASE = 'http://allcanservicos.com.br';
+const API_BASE = 'https://allcanservicos.com.br';
+
+// ===== Auth Guard =====
+(function checkAuth() {
+  const token = localStorage.getItem('auth_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+  const nome = localStorage.getItem('auth_nome');
+  const nomeEl = document.getElementById('usuario-nome');
+  if (nomeEl && nome) nomeEl.textContent = nome;
+})();
+
+function logout() {
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('auth_nome');
+  window.location.href = 'login.html';
+}
+
 // ===== State =====
 let alunos = [];
 let cursos = [];
@@ -10,17 +29,25 @@ let modalCallback = null;
 
 // ===== API Service =====
 const Api = {
+  headers() {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+    };
+  },
   async get(endpoint) {
-    const res = await fetch(`${API_BASE}${endpoint}`);
+    const res = await fetch(`${API_BASE}${endpoint}`, { headers: this.headers() });
+    if (res.status === 401 || res.status === 403) { logout(); return; }
     if (!res.ok) throw new Error(`Erro ao buscar dados: ${res.status}`);
     return res.json();
   },
   async post(endpoint, data) {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this.headers(),
       body: JSON.stringify(data),
     });
+    if (res.status === 401 || res.status === 403) { logout(); return; }
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.errors ? err.errors.map(e => e.defaultMessage || e.message).join('\n') : err.message || `Erro ${res.status}`);
@@ -30,9 +57,10 @@ const Api = {
   async put(endpoint, data) {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this.headers(),
       body: JSON.stringify(data),
     });
+    if (res.status === 401 || res.status === 403) { logout(); return; }
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.errors ? err.errors.map(e => e.defaultMessage || e.message).join('\n') : err.message || `Erro ${res.status}`);
@@ -40,7 +68,8 @@ const Api = {
     return res.json();
   },
   async delete(endpoint) {
-    const res = await fetch(`${API_BASE}${endpoint}`, { method: 'DELETE' });
+    const res = await fetch(`${API_BASE}${endpoint}`, { method: 'DELETE', headers: this.headers() });
+    if (res.status === 401 || res.status === 403) { logout(); return; }
     if (!res.ok && res.status !== 204) throw new Error(`Erro ao deletar: ${res.status}`);
   },
 };
@@ -145,9 +174,9 @@ function renderAlunos(list) {
         <div class="action-btns">
           <button class="btn btn-secondary btn-xs" onclick="App.editAluno(${a.id})">✏️ Editar</button>
           ${a.ativo
-            ? `<button class="btn btn-warning btn-xs" onclick="App.inativarAluno(${a.id}, '${escapeHTML(a.nome)}')">⏸ Inativar</button>`
-            : `<button class="btn btn-success btn-xs" onclick="App.ativarAluno(${a.id}, '${escapeHTML(a.nome)}')">▶ Ativar</button>`
-          }
+      ? `<button class="btn btn-warning btn-xs" onclick="App.inativarAluno(${a.id}, '${escapeHTML(a.nome)}')">⏸ Inativar</button>`
+      : `<button class="btn btn-success btn-xs" onclick="App.ativarAluno(${a.id}, '${escapeHTML(a.nome)}')">▶ Ativar</button>`
+    }
         </div>
       </td>
     </tr>
@@ -173,9 +202,9 @@ function renderCursos(list) {
         <div class="action-btns">
           <button class="btn btn-secondary btn-xs" onclick="App.editCurso(${c.id})">✏️ Editar</button>
           ${c.ativo
-            ? `<button class="btn btn-warning btn-xs" onclick="App.inativarCurso(${c.id}, '${escapeHTML(c.nome)}')">⏸ Inativar</button>`
-            : `<button class="btn btn-success btn-xs" onclick="App.ativarCurso(${c.id}, '${escapeHTML(c.nome)}')">▶ Ativar</button>`
-          }
+      ? `<button class="btn btn-warning btn-xs" onclick="App.inativarCurso(${c.id}, '${escapeHTML(c.nome)}')">⏸ Inativar</button>`
+      : `<button class="btn btn-success btn-xs" onclick="App.ativarCurso(${c.id}, '${escapeHTML(c.nome)}')">▶ Ativar</button>`
+    }
         </div>
       </td>
     </tr>

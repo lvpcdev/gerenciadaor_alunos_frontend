@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sistema de Gerenciamento de Alunos - Controle de presença, cursos e registros de aula">
-  <title>Gerenciador de Alunos</title>
+  <meta name="description" content="AllCan - Sistema de Gerenciamento de Alunos - Controle de presença, cursos e registros de aula">
+  <title>AllCan - Gerenciador de Alunos</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -22,13 +22,18 @@
       <div class="modal-body" id="modal-body"></div>
       <div class="modal-footer">
         <button class="btn btn-secondary" id="modal-cancel">Cancelar</button>
-        <button class="btn btn-primary" id="modal-save">💾 Salvar</button>
+        <button class="btn btn-primary" id="modal-save">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Salvar
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Mobile Menu Button -->
-  <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">☰</button>
+  <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menu de navegação">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
 
   <div class="app-layout">
 
@@ -36,33 +41,49 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">
-          <div class="logo-icon">🎓</div>
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 10 3 12 0v-5"/></svg>
+          </div>
           <div class="logo-text">
-            <h1>EduManager</h1>
-            <span>Gerenciador de Alunos</span>
+            <h1>AllCan</h1>
+            <span>Gestão Educacional</span>
           </div>
         </div>
       </div>
       <nav class="sidebar-nav">
         <a class="nav-item active" data-page="dashboard" id="nav-dashboard">
-          <span class="nav-icon">📊</span> Dashboard
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </span>
+          Dashboard
         </a>
         <a class="nav-item" data-page="alunos" id="nav-alunos">
-          <span class="nav-icon">👥</span> Alunos
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          Alunos
         </a>
         <a class="nav-item" data-page="cursos" id="nav-cursos">
-          <span class="nav-icon">📚</span> Cursos
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </span>
+          Cursos
         </a>
         <a class="nav-item" data-page="registros" id="nav-registros">
-          <span class="nav-icon">📝</span> Registros de Aula
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          </span>
+          Registros de Aula
         </a>
       </nav>
       <div class="sidebar-footer">
         <div class="sidebar-footer-info">
-          <div class="footer-avatar">👤</div>
+          <div class="footer-avatar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
           <div class="footer-text">
-            <p>Administrador</p>
-            <span>Sistema Ativo</span>
+            <p>AllCan Admin</p>
+            <span>v1.0.0</span>
           </div>
         </div>
       </div>
@@ -73,42 +94,83 @@
 
       <!-- ===== DASHBOARD ===== -->
       <section class="section-page active" id="page-dashboard">
-        <div class="page-header">
-          <h2>Dashboard</h2>
+        <header class="page-header">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Dashboard
+          </h2>
           <p>Visão geral do sistema de gerenciamento</p>
-        </div>
+        </header>
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-card-header"><div class="stat-icon students">👥</div></div>
+          <article class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-icon students">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
             <div class="stat-value" id="stat-alunos">0</div>
             <div class="stat-label">Alunos Ativos</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-header"><div class="stat-icon courses">📚</div></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-icon courses">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+            </div>
             <div class="stat-value" id="stat-cursos">0</div>
             <div class="stat-label">Cursos Ativos</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-header"><div class="stat-icon records">📝</div></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-icon records">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              </div>
+            </div>
             <div class="stat-value" id="stat-registros">0</div>
             <div class="stat-label">Registros de Aula</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-header"><div class="stat-icon attendance">✅</div></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-icon attendance">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
             <div class="stat-value" id="stat-presenca">0%</div>
             <div class="stat-label">Taxa de Presença</div>
-          </div>
+          </article>
         </div>
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">🕐</span> Últimos Registros</h3>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </span>
+              Últimos Registros
+            </h3>
           </div>
           <div class="content-card-body">
             <div class="table-wrapper">
               <table>
-                <thead><tr><th>Aluno</th><th>Curso</th><th>Data</th><th>Tipo</th><th>Presença</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>Aluno</th>
+                    <th>Curso</th>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Presença</th>
+                  </tr>
+                </thead>
                 <tbody id="dashboard-recent-tbody">
-                  <tr><td colspan="5"><div class="empty-state"><div class="icon">📋</div><p>Nenhum registro encontrado</p></div></td></tr>
+                  <tr>
+                    <td colspan="5">
+                      <div class="empty-state">
+                        <div class="icon">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                        </div>
+                        <p>Nenhum registro encontrado</p>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -118,14 +180,23 @@
 
       <!-- ===== ALUNOS ===== -->
       <section class="section-page" id="page-alunos">
-        <div class="page-header">
-          <h2>Alunos</h2>
+        <header class="page-header">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Alunos
+          </h2>
           <p>Gerencie os alunos cadastrados no sistema</p>
-        </div>
+        </header>
+
         <!-- Form -->
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">➕</span> Cadastrar Aluno</h3>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+              Cadastrar Aluno
+            </h3>
           </div>
           <div class="content-card-body">
             <form id="form-aluno">
@@ -165,29 +236,63 @@
               </div>
               <div class="form-actions">
                 <button type="reset" class="btn btn-secondary">Limpar</button>
-                <button type="submit" class="btn btn-primary" id="btn-salvar-aluno">💾 Cadastrar Aluno</button>
+                <button type="submit" class="btn btn-primary" id="btn-salvar-aluno">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Cadastrar Aluno
+                </button>
               </div>
             </form>
           </div>
         </div>
+
         <!-- Table -->
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">📋</span> Alunos Cadastrados</h3>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              </span>
+              Alunos Cadastrados
+            </h3>
             <div class="header-actions">
               <div class="filter-tabs" id="aluno-filter-tabs">
                 <button class="filter-tab active" data-filter="ativos">Ativos</button>
                 <button class="filter-tab" data-filter="inativos">Inativos</button>
               </div>
-              <button class="btn btn-secondary btn-sm" onclick="App.loadAlunos()">🔄</button>
+              <button class="btn btn-secondary btn-sm" onclick="App.loadAlunos()" aria-label="Atualizar lista de alunos">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              </button>
             </div>
           </div>
           <div class="content-card-body">
             <div class="table-wrapper">
               <table>
-                <thead><tr><th>ID</th><th>Nome</th><th>CPF</th><th>RG</th><th>E-mail</th><th>Telefone</th><th>Nascimento</th><th>Responsável</th><th>Endereço</th><th>Status</th><th>Ações</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>RG</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Nascimento</th>
+                    <th>Responsável</th>
+                    <th>Endereço</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
                 <tbody id="alunos-tbody">
-                  <tr><td colspan="11"><div class="empty-state"><div class="icon">👥</div><p>Nenhum aluno cadastrado</p></div></td></tr>
+                  <tr>
+                    <td colspan="11">
+                      <div class="empty-state">
+                        <div class="icon">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <p>Nenhum aluno cadastrado</p>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -197,14 +302,23 @@
 
       <!-- ===== CURSOS ===== -->
       <section class="section-page" id="page-cursos">
-        <div class="page-header">
-          <h2>Cursos</h2>
+        <header class="page-header">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Cursos
+          </h2>
           <p>Gerencie os cursos disponíveis</p>
-        </div>
+        </header>
+
         <!-- Form -->
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">➕</span> Cadastrar Curso</h3>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+              Cadastrar Curso
+            </h3>
           </div>
           <div class="content-card-body">
             <form id="form-curso">
@@ -224,29 +338,58 @@
               </div>
               <div class="form-actions">
                 <button type="reset" class="btn btn-secondary">Limpar</button>
-                <button type="submit" class="btn btn-primary" id="btn-salvar-curso">💾 Cadastrar Curso</button>
+                <button type="submit" class="btn btn-primary" id="btn-salvar-curso">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Cadastrar Curso
+                </button>
               </div>
             </form>
           </div>
         </div>
+
         <!-- Table -->
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">📋</span> Cursos Cadastrados</h3>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              </span>
+              Cursos Cadastrados
+            </h3>
             <div class="header-actions">
               <div class="filter-tabs" id="curso-filter-tabs">
                 <button class="filter-tab active" data-filter="ativos">Ativos</button>
                 <button class="filter-tab" data-filter="inativos">Inativos</button>
               </div>
-              <button class="btn btn-secondary btn-sm" onclick="App.loadCursos()">🔄</button>
+              <button class="btn btn-secondary btn-sm" onclick="App.loadCursos()" aria-label="Atualizar lista de cursos">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              </button>
             </div>
           </div>
           <div class="content-card-body">
             <div class="table-wrapper">
               <table>
-                <thead><tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Carga Horária</th><th>Status</th><th>Ações</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Carga Horária</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
                 <tbody id="cursos-tbody">
-                  <tr><td colspan="6"><div class="empty-state"><div class="icon">📚</div><p>Nenhum curso cadastrado</p></div></td></tr>
+                  <tr>
+                    <td colspan="6">
+                      <div class="empty-state">
+                        <div class="icon">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        </div>
+                        <p>Nenhum curso cadastrado</p>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -256,18 +399,27 @@
 
       <!-- ===== REGISTROS DE AULA ===== -->
       <section class="section-page" id="page-registros">
-        <div class="page-header">
-          <h2>Registros de Aula</h2>
+        <header class="page-header">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            Registros de Aula
+          </h2>
           <p>Registre presenças e acompanhe as aulas</p>
-        </div>
+        </header>
+
         <!-- Form -->
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">➕</span> Novo Registro de Aula</h3>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+              Novo Registro de Aula
+            </h3>
           </div>
           <div class="content-card-body">
             <form id="form-registro">
-              <div class="form-grid">
+              <div class="form-grid form-grid-3">
                 <div class="form-group">
                   <label for="registro-aluno">Aluno</label>
                   <select id="registro-aluno" required><option value="">Selecione o aluno...</option></select>
@@ -311,23 +463,57 @@
               </div>
               <div class="form-actions">
                 <button type="reset" class="btn btn-secondary">Limpar</button>
-                <button type="submit" class="btn btn-primary" id="btn-salvar-registro">💾 Registrar Aula</button>
+                <button type="submit" class="btn btn-primary" id="btn-salvar-registro">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Registrar Aula
+                </button>
               </div>
             </form>
           </div>
         </div>
+
         <!-- Table -->
         <div class="content-card">
           <div class="content-card-header">
-            <h3><span class="icon">📋</span> Registros de Aula</h3>
-            <button class="btn btn-secondary btn-sm" onclick="App.loadRegistros()">🔄 Atualizar</button>
+            <h3>
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              </span>
+              Registros de Aula
+            </h3>
+            <button class="btn btn-secondary btn-sm" onclick="App.loadRegistros()" aria-label="Atualizar registros">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Atualizar
+            </button>
           </div>
           <div class="content-card-body">
             <div class="table-wrapper">
               <table>
-                <thead><tr><th>ID</th><th>Aluno</th><th>Curso</th><th>Data</th><th>Horário</th><th>Exercício</th><th>Tipo</th><th>Máquina</th><th>Presença</th><th>Ações</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Aluno</th>
+                    <th>Curso</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Exercício</th>
+                    <th>Tipo</th>
+                    <th>Máquina</th>
+                    <th>Presença</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
                 <tbody id="registros-tbody">
-                  <tr><td colspan="10"><div class="empty-state"><div class="icon">📝</div><p>Nenhum registro encontrado</p></div></td></tr>
+                  <tr>
+                    <td colspan="10">
+                      <div class="empty-state">
+                        <div class="icon">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                        </div>
+                        <p>Nenhum registro encontrado</p>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
