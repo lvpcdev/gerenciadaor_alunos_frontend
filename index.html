@@ -535,6 +535,13 @@
                     <label for="curso-carga">Carga Horária (h)</label>
                     <input type="number" id="curso-carga" placeholder="Ex: 40" required min="1">
                   </div>
+                  <div class="form-group">
+                    <label for="curso-categoria">Categoria</label>
+                    <select id="curso-categoria" required>
+                      <option value="BASICO">Básico</option>
+                      <option value="AVANCADO">Avançado</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="form-actions">
                   <button type="reset" class="btn btn-secondary">Limpar</button>
@@ -591,6 +598,7 @@
                       <th>Nome</th>
                       <th>Descrição</th>
                       <th>Carga Horária</th>
+                      <th>Categoria</th>
                       <th>Status</th>
                       <th>Ações</th>
                     </tr>
@@ -815,9 +823,15 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="contrato-curso">Curso</label>
-                    <select id="contrato-curso" required>
-                      <option value="">Selecione o curso...</option>
+                    <label for="contrato-modalidade">Modalidade</label>
+                    <select id="contrato-modalidade" required>
+                      <option value="">Selecione a modalidade...</option>
+                      <option value="CURSOS_BASICOS">Cursos Básicos</option>
+                      <option value="CURSOS_INTERMEDIARIOS">Cursos Intermediários</option>
+                      <option value="CURSOS_BASICOS_E_INTERMEDIARIOS">Cursos Básicos e Intermediários</option>
+                      <option value="DIGITACAO_30_DIAS">Digitação 30 dias</option>
+                      <option value="DIGITACAO_15_DIAS">Digitação 15 dias</option>
+                      <option value="CURSO_BASICO_30_DIAS">Curso Básico 30 dias</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -901,7 +915,7 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Curso</th>
+                      <th>Modalidade</th>
                       <th>Início</th>
                       <th>Horas/Mês</th>
                       <th>Vencimento</th>

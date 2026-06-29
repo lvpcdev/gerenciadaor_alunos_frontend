@@ -9,7 +9,7 @@ const ICON = {
   x: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
   pdf: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
   report: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>',
-  xlsx: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="19"/><line x1="15" y1="13" x2="9" y2="19"/></svg>',
+  xlsx: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="8 13 10.5 17 13 13"/><line x1="10.5" y1="17" x2="10.5" y2="11"/></svg>',
 };
 
 const EMPTY_ICON = {
@@ -323,7 +323,7 @@ function renderCursos(list) {
   const tbody = document.getElementById('cursos-tbody');
   const isAtivos = cursoFilter === 'ativos';
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">${EMPTY_ICON.cursos}</div><p>Nenhum curso ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="icon">${EMPTY_ICON.cursos}</div><p>Nenhum curso ${isAtivos ? 'ativo' : 'inativo'}</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(c => `
@@ -332,6 +332,7 @@ function renderCursos(list) {
       <td>${escapeHTML(c.nome)}</td>
       <td>${escapeHTML(c.descricao)}</td>
       <td>${c.cargaHoraria}h</td>
+      <td>${c.categoria === 'BASICO' ? 'BÁSICO' : 'AVANÇADO'}</td>
       <td><span class="badge badge-${c.ativo ? 'ativo' : 'inativo'}">${c.ativo ? 'Ativo' : 'Inativo'}</span></td>
       <td>
         <div class="action-btns">
@@ -392,6 +393,7 @@ function renderDashboardRecent(list) {
 }
 
 const DIA_LABEL = { SEGUNDA: 'Seg', TERCA: 'Ter', QUARTA: 'Qua', QUINTA: 'Qui', SEXTA: 'Sex', SABADO: 'Sáb' };
+const MODALIDADE_LABEL = { CURSOS_BASICOS: 'Cursos Básicos', CURSOS_INTERMEDIARIOS: 'Cursos Intermediários', CURSOS_BASICOS_E_INTERMEDIARIOS: 'Cursos Básicos e Intermediários', DIGITACAO_30_DIAS: 'Digitação 30 dias', DIGITACAO_15_DIAS: 'Digitação 15 dias', CURSO_BASICO_30_DIAS: 'Curso Básico 30 dias' };
 const EMPTY_CONTRATO = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
 
 function renderContratos(list, alunoSelecionado) {
@@ -406,11 +408,11 @@ function renderContratos(list, alunoSelecionado) {
   }
   tbody.innerHTML = list.map(c => {
     const dias = (c.diasSemana || []).map(d => DIA_LABEL[d] || d).join(', ') || '-';
-    const curso = c.curso ? c.curso.nome : (c.cursoNome || '-');
+    const modalidade = MODALIDADE_LABEL[c.modalidade] || c.modalidade || '-';
     return `
     <tr>
       <td>${c.id}</td>
-      <td>${escapeHTML(curso)}</td>
+      <td>${escapeHTML(modalidade)}</td>
       <td>${formatDate(c.dataInicio)}</td>
       <td>${c.horasAulasMes ?? '-'}</td>
       <td>Dia ${c.diaVencimento ?? '-'}</td>
@@ -645,6 +647,7 @@ const App = {
         nome: document.getElementById('curso-nome').value.trim(),
         descricao: document.getElementById('curso-descricao').value.trim(),
         cargaHoraria: parseInt(document.getElementById('curso-carga').value),
+        categoria: document.getElementById('curso-categoria').value,
       });
       showToast('Curso cadastrado com sucesso!');
       document.getElementById('form-curso').reset();
@@ -661,6 +664,12 @@ const App = {
         <div class="form-group"><label>Nome</label><input type="text" id="edit-curso-nome" value="${escapeHTML(c.nome)}"></div>
         <div class="form-group"><label>Descrição</label><input type="text" id="edit-curso-descricao" value="${escapeHTML(c.descricao)}"></div>
         <div class="form-group"><label>Carga Horária</label><input type="number" id="edit-curso-carga" value="${c.cargaHoraria}" min="1"></div>
+        <div class="form-group"><label>Categoria</label>
+          <select id="edit-curso-categoria">
+            <option value="BASICO" ${c.categoria === 'BASICO' ? 'selected' : ''}>Básico</option>
+            <option value="AVANCADO" ${c.categoria === 'AVANCADO' ? 'selected' : ''}>Avançado</option>
+          </select>
+        </div>
       </div>
     `, async () => {
       try {
@@ -668,6 +677,7 @@ const App = {
           nome: document.getElementById('edit-curso-nome').value.trim(),
           descricao: document.getElementById('edit-curso-descricao').value.trim(),
           cargaHoraria: parseInt(document.getElementById('edit-curso-carga').value),
+          categoria: document.getElementById('edit-curso-categoria').value,
         });
         showToast('Curso atualizado com sucesso!');
         closeModal(); await this.loadCursos();
@@ -839,10 +849,8 @@ const App = {
   async loadContratoSelectOptions() {
     try {
       const alunosAtivos = await Api.get('/alunos/ativos');
-      const cursosAtivos = await Api.get('/cursos/ativos');
       const alunoOpts = '<option value="">Selecione o aluno...</option>' + alunosAtivos.map(a => `<option value="${a.id}">${escapeHTML(a.nome)}</option>`).join('');
       document.getElementById('contrato-aluno').innerHTML = alunoOpts;
-      document.getElementById('contrato-curso').innerHTML = '<option value="">Selecione o curso...</option>' + cursosAtivos.map(c => `<option value="${c.id}">${escapeHTML(c.nome)}</option>`).join('');
       const filtro = document.getElementById('contrato-filtro-aluno');
       const atual = filtro.value;
       filtro.innerHTML = '<option value="">Selecione um aluno...</option>' + alunosAtivos.map(a => `<option value="${a.id}">${escapeHTML(a.nome)}</option>`).join('');
@@ -870,7 +878,7 @@ const App = {
       const alunoId = parseInt(document.getElementById('contrato-aluno').value);
       await Api.post('/contratos', {
         alunoId,
-        cursoId: parseInt(document.getElementById('contrato-curso').value),
+        modalidade: document.getElementById('contrato-modalidade').value,
         dataInicio: document.getElementById('contrato-data-inicio').value,
         horasAulasMes: parseInt(document.getElementById('contrato-horas').value),
         diaVencimento: parseInt(document.getElementById('contrato-vencimento').value),
