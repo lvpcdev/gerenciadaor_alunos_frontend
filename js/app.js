@@ -84,8 +84,12 @@ let livros = [];
 let emprestimos = [];
 let alunoFilter = 'ativos';
 let cursoFilter = 'ativos';
+let alunoOrdenacao = 'id';
+let cursoOrdenacao = 'id';
 let pessoaFilter = 'ativos';
 let livroFilter = 'ativos';
+let pessoaOrdenacao = 'id';
+let livroOrdenacao = 'id';
 let emprestimoFilter = 'todos';
 let modalCallback = null;
 
@@ -549,7 +553,7 @@ const App = {
   async loadAlunos() {
     showSkeleton('alunos-tbody', 11);
     try {
-      alunos = await Api.get(`/alunos/${alunoFilter}`);
+      alunos = await Api.get(`/alunos/${alunoFilter}?ordenacao=${alunoOrdenacao}`);
       renderAlunos(alunos);
     } catch (e) { console.warn(e.message); alunos = []; renderAlunos([]); }
   },
@@ -632,7 +636,7 @@ const App = {
   async loadCursos() {
     showSkeleton('cursos-tbody', 6);
     try {
-      cursos = await Api.get(`/cursos/${cursoFilter}`);
+      cursos = await Api.get(`/cursos/${cursoFilter}?ordenacao=${cursoOrdenacao}`);
       renderCursos(cursos);
     } catch (e) { console.warn(e.message); cursos = []; renderCursos([]); }
   },
@@ -994,7 +998,7 @@ const App = {
   async loadPessoas() {
     showSkeleton('pessoas-tbody', 8);
     try {
-      pessoas = await Api.get(`/pessoas/${pessoaFilter}`);
+      pessoas = await Api.get(`/pessoas/${pessoaFilter}?ordenacao=${pessoaOrdenacao}`);
       renderPessoas(pessoas);
     } catch (e) { console.warn(e.message); pessoas = []; renderPessoas([]); }
   },
@@ -1068,7 +1072,7 @@ const App = {
   async loadLivros() {
     showSkeleton('livros-tbody', 7);
     try {
-      livros = await Api.get(`/livros/${livroFilter}`);
+      livros = await Api.get(`/livros/${livroFilter}?ordenacao=${livroOrdenacao}`);
       renderLivros(livros);
     } catch (e) { console.warn(e.message); livros = []; renderLivros([]); }
   },
@@ -1237,11 +1241,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.getElementById('aluno-sort-tabs').addEventListener('click', (e) => {
+    if (e.target.classList.contains('filter-tab')) {
+      document.querySelectorAll('#aluno-sort-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      alunoOrdenacao = e.target.dataset.sort;
+      App.loadAlunos();
+    }
+  });
+
   document.getElementById('curso-filter-tabs').addEventListener('click', (e) => {
     if (e.target.classList.contains('filter-tab')) {
       document.querySelectorAll('#curso-filter-tabs .filter-tab').forEach(t => t.classList.remove('active'));
       e.target.classList.add('active');
       cursoFilter = e.target.dataset.filter;
+      App.loadCursos();
+    }
+  });
+
+  document.getElementById('curso-sort-tabs').addEventListener('click', (e) => {
+    if (e.target.classList.contains('filter-tab')) {
+      document.querySelectorAll('#curso-sort-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      cursoOrdenacao = e.target.dataset.sort;
       App.loadCursos();
     }
   });
@@ -1255,11 +1277,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.getElementById('pessoa-sort-tabs').addEventListener('click', (e) => {
+    if (e.target.classList.contains('filter-tab')) {
+      document.querySelectorAll('#pessoa-sort-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      pessoaOrdenacao = e.target.dataset.sort;
+      App.loadPessoas();
+    }
+  });
+
   document.getElementById('livro-filter-tabs').addEventListener('click', (e) => {
     if (e.target.classList.contains('filter-tab')) {
       document.querySelectorAll('#livro-filter-tabs .filter-tab').forEach(t => t.classList.remove('active'));
       e.target.classList.add('active');
       livroFilter = e.target.dataset.filter;
+      App.loadLivros();
+    }
+  });
+
+  document.getElementById('livro-sort-tabs').addEventListener('click', (e) => {
+    if (e.target.classList.contains('filter-tab')) {
+      document.querySelectorAll('#livro-sort-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      livroOrdenacao = e.target.dataset.sort;
       App.loadLivros();
     }
   });
